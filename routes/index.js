@@ -9,7 +9,7 @@ const router = express.Router();
 // -----------------------------\n\n`);
 
 router.get("/", (req, res) => {
-  res.send("foo");
+  res.render("index");
 });
 
 router.get("/sneakers/:cat", (req, res) => {
