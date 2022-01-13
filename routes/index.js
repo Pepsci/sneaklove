@@ -20,12 +20,5 @@ router.get("/one-product/:id", (req, res) => {
   res.render("one_product");
 });
 
-router.get("/signup", (req, res) => {
-  res.render("signup");
-});
-
-router.get("/signin", (req, res) => {
-  res.render("signin");
-});
 
 module.exports = router;
