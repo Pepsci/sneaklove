@@ -8,7 +8,7 @@ const app = express();
 const createError = require("http-errors");
 const cookieParser = require("cookie-parser");
 const flash = require("connect-flash");
-const hbo = require("hbs");
+const hbs = require("hbs");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
@@ -57,7 +57,8 @@ app.use(require("./middlewares/exposeLoginStatus")); // expose le status de conn
 app.use(require("./middlewares/exposeFlashMessage")); // affiche les messages dans le template
 
 // routers
-app.use("/", require("./routes/index"));
+const indexRouter = require("./routes/index");
+app.use("/", indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
