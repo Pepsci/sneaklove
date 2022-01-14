@@ -3,8 +3,9 @@ const router = new express.Router(); // create an app sub-module (router)
 const sneakerModel = require("../models/Sneaker");
 const tagModel = require("../models/Tag")
 const uploader = require("./../config/cloudinary");
+const privateRoute = require("./../middlewares/protectPrivateRoute")
 
-router.get("/prod-add", async (req, res) => {
+router.get("/prod-add", privateRoute ,async (req, res) => {
     try{
         const tags = await tagModel.find()
         res.render("products_add.hbs", {tags});
@@ -14,7 +15,7 @@ router.get("/prod-add", async (req, res) => {
     }
 });
 
-router.get("/prod-manage", async (req, res, next) => {
+router.get("/prod-manage", privateRoute, async (req, res, next) => {
 try {
   res.render("products_manage.hbs", { sneakers : await sneakerModel.find().populate('tag')});
 }
@@ -48,7 +49,7 @@ router.post("/prod-add", uploader.single("image"), async (req, res, next) => {
   }
 });
 
-router.get("/product-edit/:id", async (req, res, next) => {
+router.get("/product-edit/:id", privateRoute, async (req, res, next) => {
   try {
     const tags = await tagModel.find()
     const sneaker = await sneakerModel.findById(req.params.id).populate('tag')
@@ -72,7 +73,7 @@ router.post("/product-edit/:id", uploader.single("image"), async (req, res, next
   }
 })
 
-router.get("/product-delete/:id", async (req, res, next) => {
+router.get("/product-delete/:id", privateRoute, async (req, res, next) => {
   try {
     await sneakerModel.findByIdAndRemove(req.params.id);
     res.redirect("/prod-manage");
